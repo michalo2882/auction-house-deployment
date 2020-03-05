@@ -7,6 +7,9 @@ services:
     volumes:
     - ./db/data:/app/data
     - ./static-files:/static-files
+    environment:
+      PROD: 1
+      SECRET_KEY: '305-d+ub*&88ue592hoqg)gpt@6j=vfi9xmm2+9r+yxflinwt^'
   ui:
     build: ../auction-house-ui
     ports:
