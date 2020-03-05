@@ -1,0 +1,23 @@
+version: '3'
+services:
+  django-app:
+    build: ../auction-house
+    ports:
+    - "8051:8000"
+    volumes:
+    - ./db/data:/app/data
+    - ./static-files:/static-files
+  ui:
+    build: ../auction-house-ui
+    ports:
+    - "8052:5000"
+  www:
+    image: nginx
+    volumes:
+    - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    - ./static-files:/usr/share/nginx/html/backend-static
+    ports:
+    - "8050:80"
+    links:
+    - django-app
+    - ui
