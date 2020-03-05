@@ -10,6 +10,13 @@ services:
     environment:
       PROD: 1
       SECRET_KEY: '305-d+ub*&88ue592hoqg)gpt@6j=vfi9xmm2+9r+yxflinwt^'
+      DB_NAME: app
+      DB_USER: dbuser
+      DB_PASSWORD: dbpassword
+      DB_HOST: db
+      DB_PORT: ''
+    links:
+    - db
   ui:
     build: ../auction-house-ui
     ports:
@@ -24,3 +31,18 @@ services:
     links:
     - django-app
     - ui
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      #PGDATA: /data/db
+      DB_NAME: app
+      DB_USER: dbuser
+      DB_PASSWORD: dbpassword
+      DB_HOST: db
+      DB_PORT: ''
+    ports:
+      - "5432:5432"
+    volumes:
+    #- ./db/data2:/data/db
+    - ./db-init:/docker-entrypoint-initdb.d
